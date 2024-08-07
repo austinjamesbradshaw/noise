@@ -6,13 +6,10 @@ name: Deploy to Raspberry Pi
 on:
   # Triggers the workflow on push or pull request events but only for the main branch
   push:
-    branches: [main]
+    branches: [ main ]
 
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
-
-env:
-  FLASK_APP: app.py
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
@@ -25,19 +22,14 @@ jobs:
     steps:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v2
-      - run: |
-          npm install 
-          npm build
 
   deploy:
     runs-on: self-hosted
     needs: build
-
+    
     steps:
-      # Kill gunicorn server, if running already
-      - name: Kill gunicorn
-        run: pkill gunicorn || true
-
-      # Run gunicorn server
-      - name: Run gunicorn
-        run: npm preview
+      - name: Build + Push to Docker
+        run: |
+        docker build . -t "noise:latest"
+        docker tag noise:latest raspberrypi.local:5000/noise:latest
+        docker push raspberrypi.local:5000/noise:latest 
