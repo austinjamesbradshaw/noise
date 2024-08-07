@@ -28,8 +28,7 @@ jobs:
     needs: build
 
     steps:
-      # Kill gunicorn server, if running already
-      - name: Kill gunicorn
+      - name: Docker build/tag/push
         run: |
           docker build . -t "noise:latest"
           docker tag noise:latest raspberrypi.local:5000/noise:latest
