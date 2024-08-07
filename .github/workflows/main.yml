@@ -23,7 +23,6 @@ jobs:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v2
       - name: "Docker build/tag/push"
-        working-directory: ./
         run: |
           docker build . -t "noise:latest"
           docker tag noise:latest raspberrypi.local:5000/noise:latest
