@@ -13,6 +13,13 @@ on:
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
+  ci:
+    runs-on: ubuntu-latest
+    steps:
+      - name: 🛒 Checkout
+        uses: actions/checkout@v2
+      - name: 🔎 Check IP
+        run: curl https://api.ipify.org
   # This workflow contains a single job called "build"
   build:
     # The type of runner that the job will run on
